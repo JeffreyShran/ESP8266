@@ -13,7 +13,7 @@ app = Flask(__name__)
 start_time = time()
 
 def slack_webhook():
-	wekbook_url = "https://hooks.slack.com/services/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"
+	wekbook_url = "https://"
 
 	data = {"text": ":poop: Check the freezer! :poop:"}
 
@@ -39,8 +39,9 @@ atexit.register(lambda: cron.shutdown(wait=False))
 
 @app.route("/hello", methods=["GET"])
 def index():
-    start_time = time()
-    return ("Hi!", 200, None)
+	global start_time
+	start_time = time()
+	return ("Hi!", 200, None)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=False)
