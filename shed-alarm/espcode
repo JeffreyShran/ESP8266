@@ -1,0 +1,49 @@
+/*
+  const char* ssid = "ID";
+  const char* password = "PASS";
+  String serverName = "http://push.statuscake.com/?PK=0f971224eba6f86&TestID=5627703&time=0";
+*/
+
+#include <ESP8266WiFi.h>
+#include <ESP8266HTTPClient.h>
+
+const char* ssid = "wifi who shall not be named";
+const char* password = "make it so engage!";
+
+void setup () {
+
+  Serial.begin(115200);
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+
+    delay(1000);
+    Serial.print("Connecting..");
+
+  }
+
+}
+
+void loop() {
+
+  if (WiFi.status() == WL_CONNECTED) { //Check WiFi connection status
+
+    HTTPClient http;  //Declare an object of class HTTPClient
+
+    http.begin("http://vps-ab1418ad.vps.ovh.net:5000/hello");  //Specify request destination
+    int httpCode = http.GET();                                                                  //Send the request
+
+    if (httpCode > 0) { //Check the returning code
+
+      String payload = http.getString();   //Get the request response payload
+      Serial.println(payload);                     //Print the response payload
+
+    }
+
+    http.end();   //Close connection
+
+  }
+
+  delay(240000);    //Send a request every 4 minutes
+
+}
